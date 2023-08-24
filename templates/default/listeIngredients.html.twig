@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste Catégories
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Liste des ingrédients</h1>
+		<div class="row">
+
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class="col-4 mt-4">
+					<a class="btn btn-success" href="{{ path('ajouter_ingredient') }}">Ajouter</a>
+				</div>
+			{% endif %}
+
+			<div class="col-12">
+				<table class="table table-hover mt-4">
+					<thead>
+						<tr class="table-primary">
+							<th scope="col">Nom</th>
+							<th scope="col">Prix</th>
+							<th scope="col">Quantité</th>
+							<th scope="col">Catégorie</th>
+							{% if is_granted('ROLE_ADMIN') %}
+								<th scope="col">Actions</th>
+							{% endif %}
+						</tr>
+					</thead>
+					<tbody>
+						{% for ingredient in ingredients %}
+							<tr>
+								<td>{{ ingredient.nom }}</td>
+								<td>{{ ingredient.prix }}</td>
+								<td>{{ ingredient.quantite }}</td>
+								<td>{{ ingredient.categorie }}</td>
+								{% if is_granted('ROLE_ADMIN') %}
+                            <td>
+                                <a href="{{ path('edition_ingredient', {'id' : ingredient.id }) }}"><i class="fa-solid fa-pen m-2"></i></a>
+                                <a href="{{ path('suppression_ingredient', {'id' : ingredient.id }) }}" onclick="return confirm('Voulez vous supprimer l ingrédient : {{ ingredient.nom }} ?') " ><i class="fa fa-trash m-2"></i></a>
+                            </td>
+								{% endif %}
+							</tr>
+						{% endfor %}
+					</tbody>
+				</div>
+			</div>
+		</tbody>
+	</table>
+
+	{# display navigation #}
+	<div class="navigation d-flex justify-content-center">
+		{{ knp_pagination_render(ingredients) }}
+	</div>
+</div></div></div>{% endblock %}

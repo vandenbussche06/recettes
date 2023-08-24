@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ titre }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		<h1 class="mt-4 mb-4">{{ titre }}</h1>
+
+		{{ form_start(form) }}
+
+		{% if not form.vars.valid %}
+			<ul
+				class="alert alert-danger">
+				{# on affiche en premier les erreurs globales (cas classiques) #}
+				{% for error in form.vars.errors %}
+					<li>{{error.message}}</li>
+				{% endfor %}
+				{# ainsi que les erreurs concernant chaque champs #}
+				{% for child in form.children %}
+					{# si le champ à des erreur #}
+					{% if child.vars.errors is defined %}
+						{% for error in child.vars.errors %}
+							<li>"{{child.vars.label}}" :
+								{{error.message}}
+							</li>
+							{# on ajoute le label du champ devant l'erreur pour plus de précisions. #}
+						{% endfor %}
+					{% endif %}
+				{% endfor %}
+			</ul>
+		{% endif %}
+
+		{% if image != null %}
+			<div class="col-12 mb-4"> 
+				{% set url = "uploads/" ~ image %}
+				<img style="width:20%" src="{{ asset(url) }}">
+			</div>
+		{% endif %}
+
+		<div class="col-12 mb-4">
+			{{ form_label(form.vegetarien, null, {'label_attr' : {'class' : 'form-check-label'}}) }}
+			{{ form_widget(form.vegetarien, {'attr' : {'class' : 'form-check-input'}}) }}
+		</div>
+
+		<div class="col-12 mb-4">
+			{{ form_label(form.titre, null, {'label_attr' : {'class' : 'form-label'}}) }}
+			{{ form_widget(form.titre, {'attr' : {'class' : 'form-control'}}) }}
+		</div>
+
+		<div class="col-12">
+			{{ form_label(form.sous_titre, null, {'label_attr' : {'class' : 'form-label'}}) }}
+			{{ form_widget(form.sous_titre, {'attr' : {'class' : 'form-control'}}) }}
+		</div>
+
+		<div class="col-12">
+			{{ form_label(form.description, null, {'label_attr' : {'class' : 'form-label'}}) }}
+			{{ form_widget(form.description, {'attr' : {'class' : 'form-control'}}) }}
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				{{ form_label(form.nb_personnes, null, {'label_attr' : {'class' : 'form-label'}}) }}
+				{{ form_widget(form.nb_personnes, {'attr' : {'class' : 'form-control'}}) }}
+			</div>
+
+			<div class="col-sm-6">
+				{{ form_label(form.niveau, null, {'label_attr' : {'class' : 'form-label'}}) }}
+				{{ form_widget(form.niveau, {'attr' : {'class' : 'form-control'}}) }}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				{{ form_label(form.temps, null, {'label_attr' : {'class' : 'form-label'}}) }}
+				{{ form_widget(form.temps, {'attr' : {'class' : 'form-control'}}) }}
+			</div>
+
+			<div class="col-sm-6">
+				{{ form_label(form.prix_personne, null, {'label_attr' : {'class' : 'form-label'}}) }}
+				{{ form_widget(form.prix_personne, {'attr' : {'class' : 'form-control'}}) }}
+			</div>
+
+			<div class="col-sm-6">
+				{{ form_label(form.imageFile, null, {'label_attr' : {'class' : 'form-label'}}) }}
+				{{ form_widget(form.imageFile, {'attr' : {'class' : 'form-control'}}) }}
+			</div>
+		</div>
+
+		<div class="row">
+			{{ form_widget(form.brouillon, { 'attr' : { 'class' : 'btn btn-default mt-4'}} )}}
+			{{ form_widget(form.publier, { 'attr' : { 'class' : 'btn btn-success mt-4'}} )}}
+			<a href="{{ path('liste_recettes') }}" class="btn btn-info mt-4">Annuler</a>
+		</div>
+		{{ form_rest(form) }}
+		
+		{{ form_end(form) }}
+
+
+	</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste Catégories{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Liste des categories</h1>
+    <div class="row">
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="col-4 mt-4">
+                <a class="btn btn-success" href="#">Ajouter</a>
+            </div>    
+        {% endif %}
+
+        <div class="col-12">
+            <table class="table table-hover mt-4">
+            <thead>
+                <tr class="table-primary">
+                <th scope="col">Nom</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th scope="col">Actions</th>
+                {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                    {% for categorie in categories %}
+                    <tr>
+                        <td>{{ categorie.nom }}</td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <td>
+                                <a href="#"><i class="fa-solid fa-pen m-2"></i></a>
+                                <a href="#" ><i class="fa fa-trash m-2"></i></a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                    </div> 
+                </div>
+            </tbody>
+            </table> 
+
+            {# display navigation #}
+            <div class="navigation d-flex justify-content-center">
+                {{ knp_pagination_render(categories) }}
+            </div>
+        </div>
+    </div> 
+</div>    
+{% endblock %}
